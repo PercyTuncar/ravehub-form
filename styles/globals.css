@@ -105,3 +105,265 @@ a {
     color-scheme: dark;
   }
 }
+/* Estilos generales */
+ 
+
+
+
+
+
+
+
+/* Configuración general del formulario */
+/* Estilos para el formulario */
+/* Estilos generales */
+/* Estilos generales */
+
+* {
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.formbold-main-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.formbold-form-wrapper { 
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  width: 600px;
+}
+
+.formbold-form-label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.formbold-form-input {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.formbold-input-flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.formbold-input-flex > div {
+  flex: 1; 
+}
+
+.formbold-input-flex > div:last-child {
+  margin-right: 0;
+}
+
+.formbold-input-flex > div:nth-child(2),
+.formbold-input-flex > div:nth-child(3) {
+  flex-basis: 50%;
+  padding-left: 5px;
+}
+
+.formbold-input-flex > div:nth-child(4),
+.formbold-input-flex > div:nth-child(5) {
+  flex-basis: 50%;
+  padding-left: 5px;
+}
+
+.formbold-input-flex > div:nth-child(6),
+.formbold-input-flex > div:nth-child(7) {
+  flex-basis: 50%;
+  padding-left: 5px;
+}
+
+.formbold-form-step-1 {
+  display: block;
+}
+
+.formbold-form-step-1.active {
+  display: block;
+}
+
+.formbold-btn {
+  background-color: #F6981D;
+  border: none;
+  border-radius: 5px;
+  color: #000;
+  cursor: pointer;
+  display: block;
+  margin: 20px auto 0;
+  padding: 10px 20px;
+  text-align: center;
+  width: 150px;
+  height: fit-content;
+  font-size: 14px;
+    font-weight: 600;
+}
+
+.formbold-btn:hover {
+  background-color: #fff;
+  color: #000;
+}
+
+/* Estilos específicos para cada campo */
+
+#firstname, #lastname {
+  flex-basis: 50%;
+}
+
+#dob, #whatsapp {
+  flex-basis: 50%;
+}
+
+#address, #photo {
+  flex-basis: 100%;
+}
+
+@media screen and (max-width: 600px) {
+
+  .formbold-form-wrapper {
+    width: 100%;
+  }
+
+  .formbold-input-flex > div {
+    flex-basis: 100%;
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+
+  #firstname, #lastname {
+    flex-basis: 100%;
+  }
+
+  #dob, #whatsapp {
+    flex-basis: 100%;
+  }
+
+  #address, #photo {
+    flex-basis: 100%;
+  }
+
+}
+
+
+
+
+
+
+.si-no {
+  display: inline-block;
+  margin: 10px;
+}
+
+.si-no input[type="radio"] {
+  display: none;
+}
+
+.si-no label {
+  font-size: 18px;
+  color: #333;
+  cursor: pointer;
+}
+
+.si-no label:before {
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  border-radius: 50%;
+  border: 2px solid #333;
+  background-color: #fff;
+}
+
+.si-no input[type="radio"]:checked + label:before {
+  background-color: #333;
+}
+
+
+
+
+.formbold-steps {
+  padding-bottom: 18px;
+  margin-bottom: 35px;
+  border-bottom: 1px solid #DDE3EC;
+}
+.formbold-steps ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
+  gap: 40px;
+}
+.formbold-steps li {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  color: #536387;
+}
+.formbold-steps li span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #DDE3EC;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  color: #536387;
+}
+.formbold-steps li.active {
+  color: #07074D;;
+}
+.formbold-steps li.active span {
+  background: #6A64F1;
+  color: #FFFFFF;
+}
+
+
+
+
+
+
+.Home_main__nLjiQ{
+  padding: 0 !important;
+}
+.Home_center__4BFgC{
+  padding-top: 1rem !important;
+}
+.Home_center__4BFgC::before, .Home_center__4BFgC::after{
+  z-index: -100;
+}
+
+.formbold-steps img{
+  width: 30%;
+}
+
+.terminos{
+  font-size: 13px;
+  color: #536387; 
+  line-height: 1.5; 
+}
+
+.cargando{
+  font-size: 12px;
+  color: #e0e0e0;
+  padding-top: 10px;
+}
+.img2 img{
+  width: 20%;
+  margin-bottom: 12px;
+}

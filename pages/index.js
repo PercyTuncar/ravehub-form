@@ -1,11 +1,103 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import styles from '@/styles/Home.module.css'
+import Head from "next/head";
+import Image from "next/image";
+import { Inter } from "next/font/google";
+import styles from "@/styles/Home.module.css";
+import firebase from "firebase/compat/app";
+import "firebase/compat/storage";
+import "firebase/compat/firestore";
+import { useState } from "react";
+import ReactLoading from 'react-loading';
 
-const inter = Inter({ subsets: ['latin'] })
+const firebaseConfig = {
+  apiKey: "AIzaSyBqfJXIAm1kXGmtLt_H6D9Rn8xNR74le8Y",
+  authDomain: "ravehub-birthday.firebaseapp.com",
+  databaseURL: "https://ravehub-birthday-default-rtdb.firebaseio.com",
+  projectId: "ravehub-birthday",
+  storageBucket: "ravehub-birthday.appspot.com",
+  messagingSenderId: "370315325048",
+  appId: "1:370315325048:web:56c3847d68b8afb930478d",
+  measurementId: "G-JT16PPPSGC",
+};
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
 
 export default function Home() {
+  const [formData, setFormData] = useState({
+    firstname: "",
+    lastname: "",
+    dob: "",
+    whatsapp: "",
+    address: "",
+    confirm: "yes",
+    photo: null,
+  });
+
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    setLoading(true); // Activa la barra de carga
+    // Subir foto a Firebase Storage
+    let photoUrl = null;
+    if (formData.photo) {
+      const storageRef = firebase.storage().ref();
+      const fileRef = storageRef.child(`photos/${formData.photo.name}`);
+      await fileRef.put(formData.photo);
+      photoUrl = await fileRef.getDownloadURL();
+    }
+
+    // Guardar datos en Firebase Firestore
+    const db = firebase.firestore();
+    db.collection("wildbirthdaylist")
+      .add({
+        firstname: formData.firstname,
+        lastname: formData.lastname,
+        dob: formData.dob,
+        whatsapp: formData.whatsapp,
+        address: formData.address,
+        confirm: formData.confirm,
+        photo: photoUrl,
+        created_at: new Date(),
+      }) 
+      .then(() => {
+        console.log("Datos guardados en Firestore");
+        setShowSuccessMessage(true);
+        setFormData({
+          firstname: "",
+          lastname: "",
+          dob: "",
+          whatsapp: "",
+          address: "",
+          confirm: "yes",
+          photo: null,
+        });
+        setShowSuccessMessage(true);
+        setTimeout(() => setShowSuccessMessage(false), 3000);
+      })
+      .catch((error) => {
+        console.error("Error al guardar datos en Firestore:", error);
+      }) .finally(() => setLoading(false)); // Desactiva la barra de carga
+      
+  };
+
+  const handleInputChange = (event) => {
+    const { name, value, type, files } = event.target;
+
+    // Si el input es un campo de archivo (type=file)
+    if (type === "file") {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: files[0],
+      }));
+    } else {
+      setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
+    }
+  };
+
   return (
     <>
       <Head>
@@ -14,101 +106,151 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
-        <div className={styles.description}>
-          <p>
-            Get started by editing&nbsp;
-            <code className={styles.code}>pages/index.js</code>
-          </p>
-          <div>
-            <a
-              href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              By{' '}
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                className={styles.vercelLogo}
-                width={100}
-                height={24}
-                priority
-              />
-            </a>
+      <div className={styles.main}>
+        <div className={styles.center}>
+          <div className="formbold-main-wrapper">
+            <div className="formbold-form-wrapper">
+              <form onSubmit={handleSubmit} className="my-form">
+                <div className="formbold-steps">
+                  <img src="https://firebasestorage.googleapis.com/v0/b/ravehub-birthday.appspot.com/o/photos%2FArtboard-1_1%20(1).png?alt=media&token=3ad21e7f-f2b2-4648-bdd4-545cbe34df41" alt="ravehub-logo" />
+                 
+                 <span className="img2">
+                 <img  src="https://ultraperu.com/wp-content/uploads/2022/12/Ultra-Peru-Logo-1024x263.png" alt="ravehub-logo" />
+                 </span>
+                  {showSuccessMessage && (
+                    <p className="success-message">Registro exitoso</p>
+                  )}
+{loading && (
+  <div className="loading-wrapper">
+    <ReactLoading type="spin" color="#F6981D" height={20} width={20} />
+    <p className="cargando">Te estamos registrando mi estimado/a Raver...</p>
+  </div>
+)}
+                </div>
+                
+
+                <div className="formbold-form-step-1 active">
+              <div className="formbold-input-flex">
+
+                <div>
+                  <label className="formbold-form-label" htmlFor="firstname">Nombre</label>
+                  <input
+                    type="text"
+                    id="firstname"
+                    name="firstname"
+                    value={formData.firstname}
+                    onChange={handleInputChange}
+                    className="formbold-form-input"
+                    required
+                    placeholder="Ej: Luis"
+                  />
+                </div>
+             
+                <div> 
+                <label className="formbold-form-label" htmlFor="lastname">Apellido</label>
+                <input
+                  type="text"
+                  id="lastname"
+                  name="lastname"
+                  value={formData.lastname}
+                  onChange={handleInputChange}
+                  className="formbold-form-input"
+                  required
+                  placeholder="Ej: De RaveHub"
+                />
+                </div>
+
+                <div>
+                <label className="formbold-form-label" htmlFor="dob">Fecha de nacimiento</label>
+                <input
+                  type="date"
+                  id="dob"
+                  name="dob"
+                  value={formData.dob}
+                  onChange={handleInputChange}
+                  className="formbold-form-input"
+                  required
+                />
+                </div>
+
+                <div>
+                <label className="formbold-form-label" htmlFor="whatsapp">Whatsapp</label>
+                <input
+                  type="tel"
+                  id="whatsapp"
+                  name="whatsapp"
+                  value={formData.whatsapp}
+                  onChange={handleInputChange}
+                  className="formbold-form-input"
+                  required
+                  placeholder="Ej: 999999999"
+                />
+                </div>
+
+                <div>
+                <label className="formbold-form-label"  htmlFor="address">Distrito</label>
+                <input
+                  type="text"
+                  id="address"
+                  name="address"
+                  value={formData.address}
+                  onChange={handleInputChange}
+                  className="formbold-form-input"
+                  required
+                  placeholder="Ej: Lima"
+                ></input>
+                </div>
+
+                <div>
+                <label className="formbold-form-label" htmlFor="photo">Foto</label>
+                <input
+                  type="file"
+                  id="photo"
+                  name="photo"
+                  accept="image/*"
+                  onChange={handleInputChange}
+                  className="formbold-form-input"
+                  required
+                />
+                </div>
+
+                <div>
+                <label className="formbold-form-label terminos" htmlFor="confirm">
+                Se te añadirá a la lista de asistentes del evento Ultra Perú y podrás obtener tu carnet de RaveHub. ¿Estás de acuerdo?
+                </label>
+                <label   > 
+                  <input
+                    type="radio"
+                    name="confirm"
+                    value="yes"
+                    checked={formData.confirm === "yes"}
+                    onChange={handleInputChange}
+                    className="si-no"
+                    
+                  />
+                  Sí
+                </label> 
+                <label >
+                  <input
+                    type="radio"
+                    name="confirm"
+                    value="no"
+                    checked={formData.confirm === "no"}
+                    onChange={handleInputChange} 
+                    className="si-no"
+                  />
+                  No
+                </label>
+                </div>
+
+                <button className="formbold-btn" type="submit">Enviar</button>
+              </div>
+            </div>
+              </form>
+            </div>
           </div>
         </div>
-
-        <div className={styles.center}>
-          <Image
-            className={styles.logo}
-            src="/next.svg"
-            alt="Next.js Logo"
-            width={180}
-            height={37}
-            priority
-          />
-        </div>
-
-        <div className={styles.grid}>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Docs <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Find in-depth information about Next.js features and&nbsp;API.
-            </p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Learn <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Learn about Next.js in an interactive course with&nbsp;quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Templates <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Discover and deploy boilerplate example Next.js&nbsp;projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Deploy <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Instantly deploy your Next.js site to a shareable URL
-              with&nbsp;Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
+      </div>
     </>
-  )
+  );
 }
