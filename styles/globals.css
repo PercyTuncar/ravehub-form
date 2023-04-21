@@ -367,3 +367,106 @@ a {
   width: 20%;
   margin-bottom: 12px;
 }
+
+
+
+
+
+
+
+
+
+/* Estilos para la tarjeta de búsqueda */
+.search-card {
+  background: linear-gradient(to bottom right, #111, #222);
+  border-radius: 10px;
+  width: 80%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Estilos para la foto del resultado de búsqueda */
+.search-result-photo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+
+/* Estilos para el nombre del resultado de búsqueda */
+.search-result-name {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Estilos para la fecha de nacimiento del resultado de búsqueda */
+.search-result-dob {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+/* Estilos para el número de WhatsApp del resultado de búsqueda */
+.search-result-whatsapp {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+/* Estilos para la dirección del resultado de búsqueda */
+.search-result-address {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+/* Estilos para el logo de RaveHub */
+.logo {
+  width: 100px;
+  height: auto;
+  margin-top: 20px;
+}
+
+/* Estilos para el contenedor del buscador */
+.search-container {
+  width: 80%;
+  max-width: 800px;
+  margin: 20px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Estilos para el campo de entrada del buscador */
+.search-input {
+  width: 70%;
+  height: 40px;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 20px 0 0 20px;
+}
+
+/* Estilos para el botón de búsqueda */
+.search-button {
+  width: 30%;
+  height: 40px;
+  font-size: 16px;
+  border: none;
+  border-radius: 0 20px 20px 0;
+  background-color: #F6981D;
+  color: #111;
+  cursor: pointer;
+}
+
+/* Estilos para el resultado de búsqueda */
+.search-result { 
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 600px;
+}
